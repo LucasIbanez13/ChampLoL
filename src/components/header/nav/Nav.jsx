@@ -4,18 +4,10 @@ import axios from 'axios';
 function Nav() {
   const [isRolesOpen, setIsRolesOpen] = useState(false);
   const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState('All');
+  const [selectedRole, setSelectedRole] = useState(null);
 
-  const toggleRolesMenu = () => {
+  const handleRoleClick = () => {
     setIsRolesOpen(!isRolesOpen);
-  };
-
-  const handleMouseEnter = () => {
-    setIsRolesOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsRolesOpen(false);
   };
 
   useEffect(() => {
@@ -38,9 +30,7 @@ function Nav() {
 
   const handleRoleSelection = (role) => {
     setSelectedRole(role);
-    // Aquí puedes implementar la lógica para filtrar los campeones por rol.
-    // Puedes pasar el `selectedRole` a un estado global o a un componente superior para filtrar los campeones.
-    setIsRolesOpen(false); // Cierra el menú después de seleccionar un rol
+    setIsRolesOpen(false); // Opcional: Cierra el menú después de seleccionar un rol
   };
 
   return (
@@ -49,17 +39,16 @@ function Nav() {
         <li><a href="#inicio" className="text-lg font-semibold hover:text-gray-400 transition-colors">Inicio</a></li>
         <li 
           className="relative"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onClick={handleRoleClick}
         >
           <a 
             href="#campeones" 
-            className="text-lg font-semibold hover:text-gray-400 transition-colors"
+            className="text-lg font-semibold hover:text-gray-400 transition-colors cursor-pointer"
           >
             Campeones
           </a>
           {isRolesOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white rounded shadow-lg z-50 flex">
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white rounded shadow-lg z-50 flex flex-row">
               {roles.map((role) => (
                 <div
                   key={role}
