@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
-function Card({ champion }) {
+function Card({ champion, toggleFavorite, isFavorite }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleShowDetails = () => {
@@ -21,16 +24,21 @@ function Card({ champion }) {
         <div className="absolute top-2 right-2 bg-gray-900 text-white px-2 py-1 rounded z-10">
           {champion.tags.join(', ')}
         </div>
-      </div>
-      <div className="left-2  text-white z-10">
-        <h2 className="text-xl pl-4 pt-3 font-semibold">{champion.name}</h2>
- 
-        <button
-          className=" p-5 mt-6 bg-blue-500 text-white w-full  hover:bg-blue-600"
+        <button 
+          className="absolute top-2 left-2 bg-transparent text-red-500 z-20 p-2 cursor-pointer"
+          onClick={() => toggleFavorite(champion.id)}
         >
-            Ver mas
+          <FontAwesomeIcon icon={isFavorite ? faHeartSolid : faHeartRegular} />
         </button>
-        
+      </div>
+      <div className="left-2 text-white z-10">
+        <h2 className="text-xl pl-4 pt-3 font-semibold">{champion.name}</h2>
+        <button
+          className="p-5 mt-6 bg-blue-500 text-white w-full hover:bg-blue-600"
+          onClick={handleShowDetails}
+        >
+          Ver más
+        </button>
       </div>
     </div>
   );

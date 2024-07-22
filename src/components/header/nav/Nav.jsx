@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// src/components/nav/Nav.jsx
+import React from 'react';
 
-function Nav({ setSelectedRole }) {
-  const [isRolesOpen, setIsRolesOpen] = useState(false);
-  const [roles, setRoles] = useState([]);
+function Nav({ setSelectedRole, setShowFavorites }) {
+  const [isRolesOpen, setIsRolesOpen] = React.useState(false);
+  const [roles, setRoles] = React.useState([]);
 
   const handleRoleClick = () => {
     setIsRolesOpen(!isRolesOpen);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json');
-        const championsData = response.data.data;
-        const rolesSet = new Set(['All']);
+        const response = await fetch('https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json');
+        const data = await response.json();
+        const championsData = data.data;
+        const rolesSet = new Set(['Todos']);
         Object.values(championsData).forEach(champion => {
           champion.tags.forEach(tag => rolesSet.add(tag));
         });
@@ -29,13 +30,17 @@ function Nav({ setSelectedRole }) {
 
   const handleRoleSelection = (role) => {
     setSelectedRole(role);
-    setIsRolesOpen(false); // Opcional: Cierra el menú después de seleccionar un rol
+    setIsRolesOpen(false);
+  };
+
+  const handleFavoritesClick = () => {
+    setShowFavorites(true);
   };
 
   return (
     <nav className="text-white p-4 relative">
       <ul className="flex space-x-6">
-        <li><a href="#inicio" className="text-lg font-semibold hover:text-gray-400 transition-colors">Inicio</a></li>
+        <li><a href="/" className="text-lg font-semibold hover:text-gray-400 transition-colors">Inicio</a></li>
         <li 
           className="relative"
           onClick={handleRoleClick}
@@ -60,7 +65,15 @@ function Nav({ setSelectedRole }) {
             </div>
           )}
         </li>
-        <li><a href="#favoritos" className="text-lg font-semibold hover:text-gray-400 transition-colors">Favoritos</a></li>
+        <li>
+          <a 
+            href="#favoritos" 
+            className="text-lg font-semibold hover:text-gray-400 transition-colors cursor-pointer"
+            onClick={handleFavoritesClick}
+          >
+            Favoritos
+          </a>
+        </li>
       </ul>
     </nav>
   );
