@@ -1,8 +1,7 @@
-// src/components/header/Header.jsx
 import React from 'react';
 import Nav from './nav/Nav'; // Asegúrate de que la ruta sea correcta
 
-function Header() {
+function Header({ setSelectedRole }) {
   return (
     <div className="relative flex flex-col items-center pt-12 h-screen">
       <div className="relative flex flex-col items-center">
@@ -13,7 +12,7 @@ function Header() {
           ChampLoL
         </h1>
       </div>
-      <Nav /> {/* Usa el componente Nav */}
+      <Nav setSelectedRole={setSelectedRole} /> {/* Usa el componente Nav */}
     </div>
   );
 }

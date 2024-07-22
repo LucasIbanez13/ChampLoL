@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Nav() {
+function Nav({ setSelectedRole }) {
   const [isRolesOpen, setIsRolesOpen] = useState(false);
   const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState(null);
 
   const handleRoleClick = () => {
     setIsRolesOpen(!isRolesOpen);

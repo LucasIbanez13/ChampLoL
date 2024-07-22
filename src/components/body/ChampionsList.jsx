@@ -6,10 +6,9 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const API_URL = 'https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json'; // Ajusta la versión según sea necesario
 
-function ChampionsList() {
+function ChampionsList({ selectedRole, setSelectedRole }) {
   const [champions, setChampions] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState('All');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const fetchChampions = async () => {
