@@ -4,10 +4,14 @@ import Card from './card/Card';
 
 const API_URL = 'https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json'; // Ajusta la versión según sea necesario
 
-function ChampionsList({ selectedRole, showFavorites, favorites, toggleFavorite, setSelectedRole }) {
+function ChampionsList({ selectedRole, showFavorites, setSelectedRole }) {
   const [champions, setChampions] = useState([]);
   const [roles, setRoles] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem('favorites');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const fetchChampions = async () => {
     try {
@@ -29,6 +33,22 @@ function ChampionsList({ selectedRole, showFavorites, favorites, toggleFavorite,
     fetchChampions();
   }, []);
 
+  useEffect(() => {
+    // Guardar favoritos en local storage cada vez que favorites cambie
+    console.log('Guardando favoritos en localStorage:', favorites);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = (championId) => {
+    setFavorites((prevFavorites) => {
+      const newFavorites = prevFavorites.includes(championId)
+        ? prevFavorites.filter(id => id !== championId)
+        : [...prevFavorites, championId];
+      console.log('Actualizando favoritos:', newFavorites);
+      return newFavorites;
+    });
+  };
+
   const handleRoleChange = (role) => {
     setSelectedRole(role);
     setMenuOpen(false);
@@ -40,14 +60,12 @@ function ChampionsList({ selectedRole, showFavorites, favorites, toggleFavorite,
       ? champions
       : champions.filter(champion => champion.tags.includes(selectedRole));
 
-  if (showFavorites) {
-    if (filteredChampions.length === 0) {
-      return (
-        <div className="flex flex-col items-center p-4">
-          <p className="text-white">Agrega campeones a favoritos.</p>
-        </div>
-      );
-    }
+  if (showFavorites && filteredChampions.length === 0) {
+    return (
+      <div className="flex flex-col items-center p-4">
+        <p className="text-white">Agrega campeones a favoritos.</p>
+      </div>
+    );
   }
 
   return (
