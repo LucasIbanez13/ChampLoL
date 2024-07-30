@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
-function Card({ champion, toggleFavorite, isFavorite }) {
+function Card({ champion, toggleFavorite, isFavorite, onShowDetails }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleShowDetails = () => {
-    setShowDetails(!showDetails);
+    // Llamar a la función pasada como prop para mostrar los detalles
+    onShowDetails();
   };
 
   return (
@@ -35,7 +36,7 @@ function Card({ champion, toggleFavorite, isFavorite }) {
         <h2 className="text-xl pl-4 pt-3 font-semibold">{champion.name}</h2>
         <button
           className="p-5 mt-6 bg-blue-500 text-white w-full hover:bg-blue-600"
-          onClick={handleShowDetails}
+          onClick={handleShowDetails} // Llamar a la función de detalles
         >
           Ver más
         </button>
