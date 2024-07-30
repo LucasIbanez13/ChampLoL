@@ -1,5 +1,7 @@
-// src/components/nav/Nav.jsx
 import React from 'react';
+
+// Cambia la URL para obtener los datos en español
+const API_URL = 'https://ddragon.leagueoflegends.com/cdn/13.11.1/data/es_ES/champion.json';
 
 function Nav({ setSelectedRole, setShowFavorites }) {
   const [isRolesOpen, setIsRolesOpen] = React.useState(false);
@@ -12,10 +14,10 @@ function Nav({ setSelectedRole, setShowFavorites }) {
   React.useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await fetch('https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json');
+        const response = await fetch(API_URL);
         const data = await response.json();
         const championsData = data.data;
-        const rolesSet = new Set(['Todos']);
+        const rolesSet = new Set(['Todos']); // Asegúrate de que 'Todos' esté en español
         Object.values(championsData).forEach(champion => {
           champion.tags.forEach(tag => rolesSet.add(tag));
         });
@@ -40,7 +42,11 @@ function Nav({ setSelectedRole, setShowFavorites }) {
   return (
     <nav className="text-white p-4 relative">
       <ul className="flex space-x-6">
-        <li><a href="/" className="text-lg font-semibold hover:text-gray-400 transition-colors">Inicio</a></li>
+        <li>
+          <a href="/" className="text-lg font-semibold hover:text-gray-400 transition-colors">
+            Inicio
+          </a>
+        </li>
         <li 
           className="relative"
           onClick={handleRoleClick}
@@ -52,7 +58,7 @@ function Nav({ setSelectedRole, setShowFavorites }) {
             Campeones
           </a>
           {isRolesOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white rounded shadow-lg z-50 flex flex-row">
+            <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white rounded shadow-lg z-50 flex flex-col">
               {roles.map((role) => (
                 <div
                   key={role}

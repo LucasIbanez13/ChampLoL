@@ -8,7 +8,8 @@ function CardDetail({ championId, onBack }) {
   useEffect(() => {
     const fetchChampionDetails = async () => {
       try {
-        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion/${championId}.json`);
+        // URL modificada para obtener datos en español
+        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.11.1/data/es_ES/champion/${championId}.json`);
         const championData = response.data.data[championId];
         setChampion(championData);
       } catch (error) {

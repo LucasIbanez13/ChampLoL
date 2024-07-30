@@ -3,7 +3,8 @@ import axios from 'axios';
 import Card from './card/Card';
 import CardDetail from './cardDetail/CardDetail';
 
-const API_URL = 'https://ddragon.leagueoflegends.com/cdn/13.11.1/data/en_US/champion.json';
+// Actualiza la URL para obtener los datos en español
+const API_URL = 'https://ddragon.leagueoflegends.com/cdn/13.11.1/data/es_ES/champion.json';
 
 function ChampionsList({ selectedRole, showFavorites, setSelectedRole }) {
   const [champions, setChampions] = useState([]);
@@ -15,6 +16,7 @@ function ChampionsList({ selectedRole, showFavorites, setSelectedRole }) {
   });
   const [selectedChampion, setSelectedChampion] = useState(null);
 
+  // Función para obtener los campeones
   const fetchChampions = async () => {
     try {
       const response = await axios.get(API_URL);
@@ -22,6 +24,7 @@ function ChampionsList({ selectedRole, showFavorites, setSelectedRole }) {
       const championsArray = Object.values(championsData);
       setChampions(championsArray);
 
+      // Extraer y establecer roles únicos
       const allRoles = championsArray.flatMap(champion => champion.tags);
       const uniqueRoles = [...new Set(allRoles)];
       setRoles(['Todos', ...uniqueRoles]);
@@ -60,6 +63,7 @@ function ChampionsList({ selectedRole, showFavorites, setSelectedRole }) {
     setSelectedChampion(null);
   };
 
+  // Filtrar campeones según favoritos o rol seleccionado
   const filteredChampions = showFavorites
     ? champions.filter(champion => favorites.includes(champion.id))
     : selectedRole === 'Todos'
